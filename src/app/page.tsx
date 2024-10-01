@@ -102,7 +102,7 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-white-500 p-4">
-      <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">!طقم مع فالكونز</h1>
+      <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">! مع فالكونز</h1>
 
       {/* Input field for the user's name */}
       <input
