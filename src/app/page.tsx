@@ -22,7 +22,10 @@ const HomePage = () => {
 
   // Function to update canvas size based on the screen size (responsive)
   const updateCanvasSize = () => {
-    const width = window.innerWidth < 800 ? window.innerWidth * 0.9 : 800;
+    const maxWidth = 800;  // Set maximum width (desktop)
+    const minWidth = 320;  // Set minimum width (mobile)
+    
+    const width = Math.min(Math.max(window.innerWidth * 0.9, minWidth), maxWidth);
     const height = width / 4;  // Keep a 4:1 aspect ratio
     setCanvasWidth(width);
     setCanvasHeight(height);
@@ -102,7 +105,7 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-white-500 p-4">
-      <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">! مع فالكونز</h1>
+      <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">!طقم مع فالكونز</h1>
 
       {/* Input field for the user's name */}
       <input
