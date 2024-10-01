@@ -19,6 +19,7 @@ const HomePage = () => {
   const [name, setName] = useState('');
   const [canvasWidth, setCanvasWidth] = useState(1500);  // Twitter header fixed width
   const [canvasHeight, setCanvasHeight] = useState(500);  // Twitter header fixed height
+  const [isMobile, setIsMobile] = useState(false);  // Track if the user is on mobile
 
   // Function to update canvas size based on the screen size (responsive)
   const updateCanvasSize = () => {
@@ -29,6 +30,9 @@ const HomePage = () => {
     const height = width / 3;  // Keep a 3:1 aspect ratio to match Twitter's header size
     setCanvasWidth(width);
     setCanvasHeight(height);
+
+    // Check if the current device is mobile (width < 768px)
+    setIsMobile(window.innerWidth < 768);
   };
 
   // Adjust canvas size on initial render and when the window resizes
@@ -47,7 +51,7 @@ const HomePage = () => {
     if (!ctx) return;
 
     // Set canvas resolution to the fixed Twitter header size
-    const scaleFactor = 3;  // Increased scaling for higher resolution
+    const scaleFactor = 4;  // Increased scaling for better quality (higher resolution)
     canvas.width = 1500 * scaleFactor;  // Twitter header fixed width
     canvas.height = 500 * scaleFactor;  // Twitter header fixed height
     canvas.style.width = `${canvasWidth}px`;  // CSS width remains responsive
@@ -87,8 +91,8 @@ const HomePage = () => {
       ctx.textAlign = 'center';  // Center-align the text based on the circled area
       ctx.textBaseline = 'middle';  // Align the text to the middle vertically
 
-      // Use **fixed** X and Y positions to place the text where it needs to go
-      const textX = 420;  // Center the text based on the circled area (adjust X value based on your image)
+      // Adjust text position slightly based on whether the user is on mobile or not
+      let textX = isMobile ? 450 : 420;  // Move text slightly to the right on mobile
       const textY = 250;  // Fixed Y position (based on your screenshot)
 
       // Create the 3D shadow effect by drawing the text slightly offset for a shadow
