@@ -23,9 +23,9 @@ const HomePage = () => {
   // Function to update canvas size based on the screen size (responsive)
   const updateCanvasSize = () => {
     const maxWidth = 800;  // Set maximum width (desktop)
-    const minWidth = 320;  // Set minimum width (mobile)
+    const minWidth = 500;  // Set a larger minimum width for better readability on mobile
     
-    const width = Math.min(Math.max(window.innerWidth * 0.9, minWidth), maxWidth);
+    const width = Math.min(Math.max(window.innerWidth * 0.95, minWidth), maxWidth);
     const height = width / 4;  // Keep a 4:1 aspect ratio
     setCanvasWidth(width);
     setCanvasHeight(height);
@@ -72,7 +72,7 @@ const HomePage = () => {
       ctx.drawImage(img, 0, 0, canvas.width / scaleFactor, canvas.height / scaleFactor);
 
       // Set font properties for the 3D text
-      ctx.font = 'bold 40px Amiri';  // Use the Amiri font for Arabic-style text
+      ctx.font = `${canvasWidth / 20}px Amiri`;  // Adjust the font size based on canvas width
       ctx.textAlign = 'center';  
       ctx.textBaseline = 'middle';  
 
