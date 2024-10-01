@@ -17,16 +17,16 @@ import { useRef, useState, useEffect } from 'react';
 const HomePage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [name, setName] = useState('');
-  const [canvasWidth, setCanvasWidth] = useState(800);  // Responsive canvas width
-  const [canvasHeight, setCanvasHeight] = useState(200); // Responsive canvas height
+  const [canvasWidth, setCanvasWidth] = useState(1500);  // Twitter header fixed width
+  const [canvasHeight, setCanvasHeight] = useState(500);  // Twitter header fixed height
 
   // Function to update canvas size based on the screen size (responsive)
   const updateCanvasSize = () => {
-    const maxWidth = 800;  // Set maximum width (desktop)
+    const maxWidth = 1500;  // Set maximum width to the actual Twitter header width
     const minWidth = 500;  // Set minimum width for better readability on mobile
     
     const width = Math.min(Math.max(window.innerWidth * 0.95, minWidth), maxWidth);
-    const height = width / 4;  // Keep a 4:1 aspect ratio
+    const height = width / 3;  // Keep a 3:1 aspect ratio to match Twitter's header size
     setCanvasWidth(width);
     setCanvasHeight(height);
   };
@@ -46,10 +46,10 @@ const HomePage = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas resolution to a higher DPI (3x scaling for even better resolution)
+    // Set canvas resolution to the fixed Twitter header size
     const scaleFactor = 3;  // Increased scaling for higher resolution
-    canvas.width = canvasWidth * scaleFactor;  // High resolution width
-    canvas.height = canvasHeight * scaleFactor;  // High resolution height
+    canvas.width = 1500 * scaleFactor;  // Twitter header fixed width
+    canvas.height = 500 * scaleFactor;  // Twitter header fixed height
     canvas.style.width = `${canvasWidth}px`;  // CSS width remains responsive
     canvas.style.height = `${canvasHeight}px`;  // CSS height remains responsive
 
@@ -72,14 +72,24 @@ const HomePage = () => {
       ctx.drawImage(img, 0, 0, canvas.width / scaleFactor, canvas.height / scaleFactor);
 
       // Set a dynamic font size based on the canvas width
-      const fontSize = Math.max(20, Math.min(40, canvasWidth / 22));  // Font size scales with canvas width
-      ctx.font = `${fontSize}px Amiri`;  // Set the font dynamically
-      ctx.textAlign = 'left';  // Align the text to the left horizontally
+      let fontSize = 80;  // Set a fixed large font size for the text
+      ctx.font = `${fontSize}px Amiri`;  // Set the font size
+
+      // Measure the width of the text
+      const textWidth = ctx.measureText(name).width;
+
+      // Adjust the font size if the text is too long to fit
+      if (textWidth > canvasWidth * 0.6) {
+        fontSize = fontSize * (canvasWidth * 0.6 / textWidth);  // Scale down font size
+        ctx.font = `${fontSize}px Amiri`;  // Update font size based on text length
+      }
+
+      ctx.textAlign = 'center';  // Center-align the text based on the circled area
       ctx.textBaseline = 'middle';  // Align the text to the middle vertically
 
-      // Use percentages to position the text so it stays consistent across devices
-      const textX = canvasWidth * 0.20;  // X position as 12% of the canvas width (adjust as needed)
-      const textY = canvasHeight * 0.50; // Y position as 55% of the canvas height
+      // Use **fixed** X and Y positions to place the text where it needs to go
+      const textX = 420;  // Center the text based on the circled area (adjust X value based on your image)
+      const textY = 250;  // Fixed Y position (based on your screenshot)
 
       // Create the 3D shadow effect by drawing the text slightly offset for a shadow
       for (let i = 0; i < 5; i++) {
