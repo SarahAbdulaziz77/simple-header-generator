@@ -146,6 +146,10 @@ const HomePage = () => {
         Generate Header
       </button>
 
+      {/* Rights info */}
+      <p className="text-gray-200 text-sm mb-6">Done by: @TheChampiion8</p>
+
+
       {/* Center the canvas */}
       <div className="flex justify-center w-full">
         <canvas
