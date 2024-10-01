@@ -72,14 +72,14 @@ const HomePage = () => {
       ctx.drawImage(img, 0, 0, canvas.width / scaleFactor, canvas.height / scaleFactor);
 
       // Set a dynamic font size based on the canvas width
-      const fontSize = Math.max(20, Math.min(40, canvasWidth / 20));  // Font size ranges between 20 and 40px
+      const fontSize = Math.max(20, Math.min(40, canvasWidth / 22));  // Font size scales with canvas width
       ctx.font = `${fontSize}px Amiri`;  // Set the font dynamically
-      ctx.textAlign = 'center';  // Align the text to the center horizontally
+      ctx.textAlign = 'left';  // Align the text to the left horizontally
       ctx.textBaseline = 'middle';  // Align the text to the middle vertically
 
-      // X and Y positions for the text
-      const textX = (canvas.width / scaleFactor / 2) - 350 / scaleFactor;  // Move more to the left
-      const textY = canvas.height / scaleFactor / 2;  // Centered Y position
+      // Use percentages to position the text so it stays consistent across devices
+      const textX = canvasWidth * 0.20;  // X position as 12% of the canvas width (adjust as needed)
+      const textY = canvasHeight * 0.50; // Y position as 55% of the canvas height
 
       // Create the 3D shadow effect by drawing the text slightly offset for a shadow
       for (let i = 0; i < 5; i++) {
