@@ -23,7 +23,7 @@ const HomePage = () => {
   // Function to update canvas size based on the screen size (responsive)
   const updateCanvasSize = () => {
     const maxWidth = 800;  // Set maximum width (desktop)
-    const minWidth = 500;  // Set a larger minimum width for better readability on mobile
+    const minWidth = 500;  // Set minimum width for better readability on mobile
     
     const width = Math.min(Math.max(window.innerWidth * 0.95, minWidth), maxWidth);
     const height = width / 4;  // Keep a 4:1 aspect ratio
@@ -71,20 +71,25 @@ const HomePage = () => {
       // Draw the image (adjusting for scaleFactor)
       ctx.drawImage(img, 0, 0, canvas.width / scaleFactor, canvas.height / scaleFactor);
 
-      // Set font properties for the 3D text
-      ctx.font = `${canvasWidth / 20}px Amiri`;  // Adjust the font size based on canvas width
-      ctx.textAlign = 'center';  
-      ctx.textBaseline = 'middle';  
+      // Set a dynamic font size based on the canvas width
+      const fontSize = Math.max(20, Math.min(40, canvasWidth / 20));  // Font size ranges between 20 and 40px
+      ctx.font = `${fontSize}px Amiri`;  // Set the font dynamically
+      ctx.textAlign = 'center';  // Align the text to the center horizontally
+      ctx.textBaseline = 'middle';  // Align the text to the middle vertically
 
-      // Create the 3D shadow effect by drawing the text slightly to the left
+      // X and Y positions for the text
+      const textX = (canvas.width / scaleFactor / 2) - 350 / scaleFactor;  // Move more to the left
+      const textY = canvas.height / scaleFactor / 2;  // Centered Y position
+
+      // Create the 3D shadow effect by drawing the text slightly offset for a shadow
       for (let i = 0; i < 5; i++) {
         ctx.fillStyle = `rgba(0, 0, 0, ${0.1 * (i + 1)})`;  // Shadow color with increasing opacity
-        ctx.fillText(name, (canvas.width / scaleFactor / 2) - 170 + i, canvas.height / scaleFactor / 2 + i);  // Adjust x position to move further left
+        ctx.fillText(name, textX + i, textY + i);  // Adjust text position slightly for shadow effect
       }
 
       // Draw the main text on top with a brighter beige/gold color
       ctx.fillStyle = '#f1e3b3';  // Brighter beige/gold color for the main text
-      ctx.fillText(name, (canvas.width / scaleFactor / 2) - 170, canvas.height / scaleFactor / 2);  // Main text adjusted further left
+      ctx.fillText(name, textX, textY);  // Main text positioned
     };
 
     img.onerror = () => {
