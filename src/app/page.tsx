@@ -12,32 +12,50 @@
 
 "use client";  // This marks the component as a client-side component
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 const HomePage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [name, setName] = useState('');
+  const [canvasWidth, setCanvasWidth] = useState(800);  // Responsive canvas width
+  const [canvasHeight, setCanvasHeight] = useState(200); // Responsive canvas height
+
+  // Function to update canvas size based on the screen size (responsive)
+  const updateCanvasSize = () => {
+    const width = window.innerWidth < 800 ? window.innerWidth * 0.9 : 800;
+    const height = width / 4;  // Keep a 4:1 aspect ratio
+    setCanvasWidth(width);
+    setCanvasHeight(height);
+  };
+
+  // Adjust canvas size on initial render and when the window resizes
+  useEffect(() => {
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize);
+    return () => window.removeEventListener('resize', updateCanvasSize);
+  }, []);
 
   // Function to draw the Falcon header and name on the canvas with high DPI
   const drawHeader = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-  
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas resolution to a higher DPI (2x scaling for Retina displays)
-    const scaleFactor = 2;  // 2x scaling for better resolution, adjust as needed
-    canvas.width = 800 * scaleFactor;  // High resolution width
-    canvas.height = 200 * scaleFactor;  // High resolution height
-    canvas.style.width = '800px';  // CSS width remains the same
-    canvas.style.height = '200px';  // CSS height remains the same
+    // Set canvas resolution to a higher DPI (3x scaling for even better resolution)
+    const scaleFactor = 3;  // Increased scaling for higher resolution
+    canvas.width = canvasWidth * scaleFactor;  // High resolution width
+    canvas.height = canvasHeight * scaleFactor;  // High resolution height
+    canvas.style.width = `${canvasWidth}px`;  // CSS width remains responsive
+    canvas.style.height = `${canvasHeight}px`;  // CSS height remains responsive
 
     // Scale the drawing context
     ctx.scale(scaleFactor, scaleFactor);
 
-    // Enable image smoothing for better quality
+    // Enable high-quality image smoothing
     ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';  // Set to high for best quality
 
     // Load the Falcon image
     const img = new Image();
@@ -83,8 +101,8 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-white-500 p-6">
-      <h1 className="text-4xl font-bold text-white mb-6">!طقم مع فالكونز</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-500 to-white-500 p-4">
+      <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">!طقم مع فالكونز</h1>
 
       {/* Input field for the user's name */}
       <input
@@ -92,7 +110,7 @@ const HomePage = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Enter your name"
-        className="p-4 w-full max-w-md text-lg text-center rounded-lg shadow-md mb-4 border-2 border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="p-3 w-full max-w-sm text-lg text-center rounded-lg shadow-md mb-4 border-2 border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
       {/* Button to trigger the canvas drawing */}
@@ -104,11 +122,11 @@ const HomePage = () => {
       </button>
 
       {/* Center the canvas */}
-      <div className="flex justify-center">
+      <div className="flex justify-center w-full">
         <canvas
           ref={canvasRef}
-          width={800}
-          height={200}
+          width={canvasWidth}
+          height={canvasHeight}
           className="border-2 border-white shadow-lg"
         ></canvas>
       </div>
