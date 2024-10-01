@@ -21,7 +21,7 @@ const HomePage = () => {
   const [canvasHeight, setCanvasHeight] = useState(500);  // Twitter header fixed height
   const [isMobile, setIsMobile] = useState(false);  // Track if the user is on mobile
 
-  // Function to update canvas size based on the screen size (responsive)
+  // Function to update canvas size based on the screen size (responsive display)
   const updateCanvasSize = () => {
     const maxWidth = 1500;  // Set maximum width to the actual Twitter header width
     const minWidth = 500;  // Set minimum width for better readability on mobile
@@ -50,12 +50,15 @@ const HomePage = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Ensure English names are uppercase
+    const finalName = /^[A-Za-z]+$/.test(name) ? name.toUpperCase() : name;
+
     // Set canvas resolution to the fixed Twitter header size
-    const scaleFactor = 4;  // Increased scaling for better quality (higher resolution)
-    canvas.width = 1500 * scaleFactor;  // Twitter header fixed width
-    canvas.height = 500 * scaleFactor;  // Twitter header fixed height
-    canvas.style.width = `${canvasWidth}px`;  // CSS width remains responsive
-    canvas.style.height = `${canvasHeight}px`;  // CSS height remains responsive
+    const scaleFactor = 4;  // Increased scaling for higher resolution
+    canvas.width = 1500 * scaleFactor;  // Twitter header fixed width for saving
+    canvas.height = 500 * scaleFactor;  // Twitter header fixed height for saving
+    canvas.style.width = `${canvasWidth}px`;  // CSS width remains responsive for display
+    canvas.style.height = `${canvasHeight}px`;  // CSS height remains responsive for display
 
     // Scale the drawing context
     ctx.scale(scaleFactor, scaleFactor);
@@ -80,7 +83,7 @@ const HomePage = () => {
       ctx.font = `${fontSize}px Amiri`;  // Set the font size
 
       // Measure the width of the text
-      const textWidth = ctx.measureText(name).width;
+      const textWidth = ctx.measureText(finalName).width;
 
       // Adjust the font size if the text is too long to fit
       if (textWidth > canvasWidth * 0.6) {
@@ -92,18 +95,18 @@ const HomePage = () => {
       ctx.textBaseline = 'middle';  // Align the text to the middle vertically
 
       // Adjust text position slightly based on whether the user is on mobile or not
-      let textX = isMobile ? 450 : 420;  // Move text slightly to the right on mobile
+      const textX = isMobile ? 440 : 420;  // Move text slightly to the right on mobile
       const textY = 250;  // Fixed Y position (based on your screenshot)
 
       // Create the 3D shadow effect by drawing the text slightly offset for a shadow
       for (let i = 0; i < 5; i++) {
         ctx.fillStyle = `rgba(0, 0, 0, ${0.1 * (i + 1)})`;  // Shadow color with increasing opacity
-        ctx.fillText(name, textX + i, textY + i);  // Adjust text position slightly for shadow effect
+        ctx.fillText(finalName, textX + i, textY + i);  // Adjust text position slightly for shadow effect
       }
 
       // Draw the main text on top with a brighter beige/gold color
       ctx.fillStyle = '#f1e3b3';  // Brighter beige/gold color for the main text
-      ctx.fillText(name, textX, textY);  // Main text positioned
+      ctx.fillText(finalName, textX, textY);  // Main text positioned
     };
 
     img.onerror = () => {
