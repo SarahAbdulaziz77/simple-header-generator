@@ -1,15 +1,3 @@
-
-// const HomePage = () => {
-//   return (
-//     <div>
-//       <h1>Home page</h1>
-//       <p>welcome to next js</p>
-//     </div>
-//   )
-// }
-
-// export default HomePage
-
 "use client";  // This marks the component as a client-side component
 
 import { useRef, useState, useEffect } from 'react';
