@@ -55,7 +55,7 @@ const HomePage = () => {
       ctx.textBaseline = "middle";
 
       // 🔹 **Fix Text Placement Inside Brown Area**
-      const textX = (img.width / 2) - (img.width * 0.03); // Moves text slightly left
+      const textX = (img.width / 2) - (img.width * 0.02); // Moves text slightly left
       const textY = img.height * 0.71; // Adjusted for brown area
 
 
