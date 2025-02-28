@@ -83,7 +83,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
       <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-        🎉 رمضان مبارك! أضف اسمك هنا ✨
+        ! رمضان مبارك🌙✨ أضف اسمك هنا ✨
       </h1>
 
       {/* Input for user text */}
@@ -100,7 +100,7 @@ const HomePage = () => {
         onClick={drawImageWithText}
         className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 mb-6"
       >
-        🎨 توليد الصورة
+         توليد الصورة
       </button>
 
       {/* Canvas for drawing the image */}
