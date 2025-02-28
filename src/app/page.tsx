@@ -7,7 +7,6 @@ const HomePage = () => {
   const [name, setName] = useState("");
   const [canvasWidth, setCanvasWidth] = useState(800); // Default width
   const [canvasHeight, setCanvasHeight] = useState(800); // Default height
-  const [isMobile, setIsMobile] = useState(false);
 
   // Function to update canvas size
   const updateCanvasSize = () => {
@@ -15,7 +14,6 @@ const HomePage = () => {
     const height = width;
     setCanvasWidth(width);
     setCanvasHeight(height);
-    setIsMobile(window.innerWidth < 768);
   };
 
   useEffect(() => {
@@ -51,19 +49,15 @@ const HomePage = () => {
       const finalName = /^[A-Za-z]+$/.test(name) ? name.toUpperCase() : name;
 
       // 🔹 **Set Font Size Based on Brown Bar Height**
-      let fontSize = img.height * 0.03  ; // Adjust based on image height
+      const fontSize = img.height * 0.03;
       ctx.font = `${fontSize}px Cairo`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
       // 🔹 **Fix Text Placement Inside Brown Area**
-      const textX = img.width / 2; // Centered horizontally
+      const textX = (img.width / 2) - (img.width * 0.03); // Moves text slightly left
       const textY = img.height * 0.71; // Adjusted for brown area
 
-      // **Apply a shadow effect for better readability**
-      for (let i = 0; i < 4; i++) {
-        ctx.fillText(finalName, textX + i, textY + i);
-      }
 
       // **Final text (inside brown area)**
       ctx.fillStyle = "#ffffff"; // Light beige/gold color
@@ -122,7 +116,7 @@ const HomePage = () => {
       {/* Button to save the generated image */}
       <button
         onClick={saveImage}
-        className="mt-6 px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600"
+        className="mt-6 px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600"
       >
         💾 حفظ الصورة
       </button>
